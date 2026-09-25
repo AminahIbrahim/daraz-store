@@ -25,6 +25,27 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'You must be logged in to place an order' },
+        { status: 401 }
+      );
+    }
+
+    // Confirm the user actually exists before attempting the order —
+    // gives a clear error instead of a raw Prisma P2025 crash
+    const userExists = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!userExists) {
+      return NextResponse.json(
+        { error: 'Your session is invalid. Please log out and log in again.' },
+        { status: 401 }
+      );
+    }
+
     // Re-verify total amount on the backend side
     const totalAmount = items.reduce(
       (sum: number, item: CartItem) => sum + item.price * item.quantity,

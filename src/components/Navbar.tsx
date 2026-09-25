@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, ShoppingCart, User, QrCode, CheckCircle, Store, HelpCircle, PhoneCall, Mail, X } from 'lucide-react';
+import { Search, ShoppingCart, QrCode, CheckCircle, Store, HelpCircle, PhoneCall, Mail, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import { useCartStore } from '@/store/useCartStore';
 
 export default function Navbar() {
@@ -15,6 +16,7 @@ export default function Navbar() {
   
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { data: session } = useSession();
 
   const cart = useCartStore((state) => state.cart);
   const cartCount = cart.reduce((total, item) => total + (Number(item.quantity) || 1), 0);
@@ -28,7 +30,6 @@ export default function Navbar() {
 
   const executeSearch = () => {
     if (searchQuery.trim()) {
-      // Fixed: Routing to /search with ?q= parameter matching SearchPage
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     } else {
       inputRef.current?.focus();
@@ -132,9 +133,20 @@ export default function Navbar() {
 
           </div>
 
-          <div className="flex gap-4">
-            <Link href="/login" className="hover:underline">LOGIN</Link>
-            <Link href="/signup" className="hover:underline">SIGN UP</Link>
+          <div className="flex gap-4 items-center">
+            {session?.user ? (
+              <>
+                <span className="text-white/90">Hi, {session.user.name || 'User'}</span>
+                <button onClick={() => signOut({ callbackUrl: '/' })} className="hover:underline cursor-pointer">
+                  LOGOUT
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hover:underline">LOGIN</Link>
+                <Link href="/signup" className="hover:underline">SIGN UP</Link>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -187,11 +199,6 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4 text-sm font-medium">
-          <Link href="/login" className="flex items-center gap-1 hover:text-orange-100 transition-colors">
-            <User className="w-4 h-4" />
-            <span>Login</span>
-          </Link>
-
           <Link href="/cart" className="relative flex items-center gap-1 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-md transition-colors">
             <ShoppingCart className="w-4 h-4" />
             <span>Cart</span>

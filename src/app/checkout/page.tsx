@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useCartStore } from '@/store/useCartStore';
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const cartItems = useCartStore((state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
 
@@ -16,12 +18,24 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState('COD');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (status === 'loading') {
+      setError('Checking your session, please wait a moment and try again.');
+      return;
+    }
+
+    if (!session?.user?.id) {
+      setError('Please log in to place an order.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -31,7 +45,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           items: cartItems,
           totalAmount,
-          userId: 'guest-user-id',
+          userId: session.user.id,
           shippingAddress: `${shippingAddress}, ${city}`,
           fullName,
           phone,
@@ -46,7 +60,10 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      router.push('/');
+      setShowSuccess(true);
+      setTimeout(() => {
+        router.push('/');
+      }, 2500);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -60,6 +77,20 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-sm w-full mx-4 text-center shadow-xl">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Order Placed!</h2>
+            <p className="text-gray-600">Thank you for shopping with Daraz Clone. Redirecting you home...</p>
+          </div>
+        </div>
+      )}
+
       <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Checkout</h1>
 
       {error && (
