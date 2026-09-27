@@ -8,11 +8,40 @@ interface OrderItemInput {
   price: number;
 }
 
+// GET: Fetch order history for the logged-in user
+export async function GET() {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id || "guest-user-id";
+
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return NextResponse.json({ orders }, { status: 200 });
+  } catch (error: unknown) {
+    console.error("Fetch orders error:", error);
+    return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+  }
+}
+
+// POST: Create a new order
 export async function POST(req: Request) {
   try {
     const session = await auth();
 
-    // Guest checkout fallback agar user logged-in na ho
     const userId = session?.user?.id || "guest-user-id";
 
     const { items, totalAmount, shippingAddress, paymentMethod, phone, fullName, city } = await req.json();

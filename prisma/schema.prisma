@@ -13,6 +13,7 @@ enum Role {
 }
 
 enum OrderStatus {
+  PLACED
   PENDING
   PROCESSING
   SHIPPED
@@ -64,11 +65,11 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   id           String   @id @default(cuid())
+   sessionToken String   @unique
+   userId       String
+   expires      DateTime
+   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Address {
@@ -114,13 +115,13 @@ model Order {
   id              String        @id @default(cuid())
   userId          String
   totalAmount     Decimal       @db.Decimal(10, 2)
-  status          OrderStatus   @default(PENDING)
+  status          OrderStatus   @default(PLACED)
   paymentStatus   PaymentStatus @default(UNPAID)
   paymentMethod   String        @default("COD")
   stripeIntentId  String?
 
-  addressId       String?       // Optional line to prevent foreign key errors
-  shippingAddress String?       // Direct address string
+  addressId       String?       
+  shippingAddress String?       
 
   address         Address?      @relation(fields: [addressId], references: [id])
   user            User          @relation(fields: [userId], references: [id])
@@ -136,7 +137,9 @@ model OrderItem {
   productId String
   quantity  Int
   price     Decimal @db.Decimal(10, 2)
+  title     String? // Saved to keep order history intact even if product is deleted
+  image     String? // Saved to keep order history intact even if product is deleted
 
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 }
