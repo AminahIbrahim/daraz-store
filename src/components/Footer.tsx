@@ -1,74 +1,80 @@
-'use client';
-
-import { useState } from 'react';
-import { useCartStore } from '@/store/useCartStore';
-
-interface Product {
-  id: string;
-  title: string;
-  slug?: string;
-  price: number;
-  images?: string[];
-  stock: number;
-}
-
-interface AddToCartButtonProps {
-  product: Product;
-}
-
-export default function AddToCartButton({ product }: AddToCartButtonProps) {
-  const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
-  const addToCart = useCartStore((state) => state.addToCart);
-
-  const handleAddToCart = () => {
-    // Add the selected quantity to the Zustand store.
-    for (let index = 0; index < quantity; index += 1) {
-      addToCart({
-        id: product.id,
-        title: product.title,
-        price: Number(product.price),
-        image: product.images?.[0] || 'https://via.placeholder.com/150',
-        stock: product.stock,
-      });
-    }
-
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
-
+export default function Footer() {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <label className="text-sm font-medium text-gray-700">Quantity:</label>
-        <div className="flex items-center border border-gray-300 rounded-md">
-          <button
-            type="button"
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="px-3 py-1 text-gray-600 hover:bg-gray-100"
-          >
-            -
-          </button>
-          <span className="px-4 py-1 text-sm font-semibold">{quantity}</span>
-          <button
-            type="button"
-            onClick={() => setQuantity(quantity + 1)}
-            className="px-3 py-1 text-gray-600 hover:bg-gray-100"
-          >
-            +
-          </button>
+    <footer className="bg-white border-t border-gray-200 pt-12 pb-6 mt-16 text-gray-700">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-gray-200">
+        
+        {/* Column 1: Customer Care */}
+        <div>
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Customer Care</h3>
+          <ul className="space-y-3 text-sm">
+            <li><a href="#" className="hover:text-orange-500">Help Center</a></li>
+            <li><a href="#" className="hover:text-orange-500">How to Buy</a></li>
+            <li><a href="#" className="hover:text-orange-500">Returns & Refunds</a></li>
+            <li>
+              <a href="mailto:amnaibrahim0129@gmail.com" className="hover:text-orange-500 font-medium">
+                Contact Us (Email)
+              </a>
+            </li>
+          </ul>
         </div>
+
+        {/* Column 2: Earn with Daraz */}
+        <div>
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Earn with Daraz</h3>
+          <ul className="space-y-3 text-sm">
+            <li><a href="#" className="hover:text-orange-500">Daraz University</a></li>
+            <li><a href="#" className="hover:text-orange-500">Sell on Daraz</a></li>
+            <li><a href="#" className="hover:text-orange-500">Code of Conduct</a></li>
+          </ul>
+        </div>
+
+        {/* Column 3: Developer Links */}
+        <div>
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Developer Links</h3>
+          <ul className="space-y-3 text-sm text-gray-600">
+            <li>
+              <a 
+                href="https://github.com/AminahIbrahim/daraz-store" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-orange-500 font-medium text-orange-600 underline"
+              >
+                GitHub Repository
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* Column 4: Download App */}
+        <div>
+          <h3 className="font-bold text-gray-900 mb-4 uppercase text-sm tracking-wider">Download App</h3>
+          <div className="flex flex-col gap-3">
+            <a 
+              href="https://play.google.com/store" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-black text-white px-4 py-2.5 rounded text-xs font-semibold text-center hover:bg-gray-800 transition block"
+            >
+              Google Play Store
+            </a>
+            <a 
+              href="https://www.apple.com/app-store/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-black text-white px-4 py-2.5 rounded text-xs font-semibold text-center hover:bg-gray-800 transition block"
+            >
+              App Store
+            </a>
+          </div>
+        </div>
+
       </div>
 
-      <button
-        type="button"
-        onClick={handleAddToCart}
-        className={`w-full py-3 rounded-lg font-bold text-white transition-all ${
-          added ? 'bg-green-600' : 'bg-[#F57224] hover:bg-[#d05a17]'
-        }`}
-      >
-        {added ? '✓ Added to Cart!' : 'Add to Cart'}
-      </button>
-    </div>
+      {/* Bottom Copyright */}
+      <div className="max-w-7xl mx-auto px-4 pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+        <p>© 2026 Daraz Clone. All rights reserved.</p>
+        <p className="mt-2 md:mt-0">Built with Next.js, Prisma & Tailwind CSS</p>
+      </div>
+    </footer>
   );
 }

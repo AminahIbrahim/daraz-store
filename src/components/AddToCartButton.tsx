@@ -7,7 +7,7 @@ interface Product {
   id: string;
   title: string;
   slug?: string;
-  price: number | any;
+  price: number;
   images?: string[];
   stock: number;
 }
@@ -22,8 +22,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   const addToCart = useCartStore((state) => state.addToCart);
 
   const handleAddToCart = () => {
-    // Add item to Zustand store with selected quantity and converted price
-    for (let i = 0; i < quantity; i++) {
+    for (let index = 0; index < quantity; index += 1) {
       addToCart({
         id: product.id,
         title: product.title,
@@ -38,22 +37,22 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <label className="text-sm font-medium text-gray-700">Quantity:</label>
-        <div className="flex items-center border border-gray-300 rounded-md">
+    <div className="space-y-2 mt-2">
+      <div className="flex items-center justify-between text-xs">
+        <span className="font-medium text-gray-600">Quantity:</span>
+        <div className="flex items-center border border-gray-300 rounded overflow-hidden">
           <button
             type="button"
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="px-3 py-1 text-gray-600 hover:bg-gray-100"
+            className="px-2 py-0.5 bg-gray-50 text-gray-600 hover:bg-gray-200"
           >
             -
           </button>
-          <span className="px-4 py-1 text-sm font-semibold">{quantity}</span>
+          <span className="px-3 py-0.5 font-semibold text-gray-700">{quantity}</span>
           <button
             type="button"
             onClick={() => setQuantity(quantity + 1)}
-            className="px-3 py-1 text-gray-600 hover:bg-gray-100"
+            className="px-2 py-0.5 bg-gray-50 text-gray-600 hover:bg-gray-200"
           >
             +
           </button>
@@ -63,11 +62,11 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
       <button
         type="button"
         onClick={handleAddToCart}
-        className={`w-full py-3 rounded-lg font-bold text-white transition-all ${
+        className={`w-full py-1.5 rounded text-xs font-bold text-white transition-all ${
           added ? 'bg-green-600' : 'bg-[#F57224] hover:bg-[#d05a17]'
         }`}
       >
-        {added ? '✓ Added to Cart!' : 'Add to Cart'}
+        {added ? '✓ Added!' : 'Add to Cart'}
       </button>
     </div>
   );

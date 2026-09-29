@@ -38,8 +38,8 @@ export default function Navbar() {
 
   return (
     <header className="bg-[#F57224] text-white sticky top-0 z-50 shadow-md">
-      {/* Top Mini Navigation Bar */}
-      <div className="bg-[#d85e19] text-xs py-1 border-b border-orange-600/30">
+      {/* Top Mini Navigation Bar - Hidden on mobile for cleaner look */}
+      <div className="hidden md:block bg-[#d85e19] text-xs py-1 border-b border-orange-600/30">
         <div className="max-w-7xl mx-auto px-4 flex justify-end items-center text-orange-100 font-medium">
           <div className="flex items-center space-x-5">
 
@@ -153,19 +153,32 @@ export default function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex flex-wrap md:flex-nowrap items-center gap-2 sm:gap-4">
 
-        {/* Logo */}
-        <Link href="/" className="inline-flex items-center cursor-pointer shrink-0 mr-8">
-          <img
-            src="https://lzd-img-global.slatic.net/us/domino/3b870cb043c7f8a9741cbf66329e294e.png"
-            alt="Daraz Logo"
-            className="h-9 w-auto object-contain brightness-0 invert"
-          />
-        </Link>
+        {/* Logo and Cart row for mobile layout flexibility */}
+        <div className="flex items-center justify-between w-full md:w-auto">
+          {/* Logo */}
+          <Link href="/" className="inline-flex items-center cursor-pointer shrink-0 mr-2 sm:mr-6">
+            <img
+              src="https://lzd-img-global.slatic.net/us/domino/3b870cb043c7f8a9741cbf66329e294e.png"
+              alt="Daraz Logo"
+              className="h-7 sm:h-9 w-auto object-contain brightness-0 invert"
+            />
+          </Link>
+
+          {/* Cart for Mobile (Visible on small screens right next to logo) */}
+          <Link href="/cart" className="relative p-2 rounded-md hover:bg-white/10 transition-colors flex items-center justify-center shrink-0 md:hidden ml-auto">
+            <ShoppingCart className="w-6 h-6 text-white" />
+            {isMounted && cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-[#F57224] animate-pulse">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+        </div>
 
         {/* Search Bar */}
-        <div className="flex-1 max-w-2xl flex items-center bg-white rounded-md overflow-hidden shadow-sm h-11">
+        <div className="flex-1 w-full md:max-w-2xl flex items-center bg-white rounded-md overflow-hidden shadow-sm h-10 sm:h-11">
           <input
             ref={inputRef}
             type="text"
@@ -177,7 +190,7 @@ export default function Navbar() {
                 executeSearch();
               }
             }}
-            className="w-full h-full bg-white text-gray-900 placeholder-gray-400 text-sm px-4 focus:outline-none"
+            className="w-full h-full bg-white text-gray-900 placeholder-gray-400 text-xs sm:text-sm px-3 sm:px-4 focus:outline-none"
           />
 
           {searchQuery && (
@@ -187,7 +200,7 @@ export default function Navbar() {
                 setSearchQuery('');
                 inputRef.current?.focus();
               }}
-              className="text-gray-400 hover:text-gray-600 px-2.5 h-full flex items-center justify-center transition-colors"
+              className="text-gray-400 hover:text-gray-600 px-2 h-full flex items-center justify-center transition-colors"
               aria-label="Clear search"
             >
               <X className="w-4 h-4" />
@@ -198,14 +211,14 @@ export default function Navbar() {
             type="button"
             aria-label="Search"
             onClick={executeSearch}
-            className="bg-[#FFE1D2] hover:bg-[#ffd1bc] text-[#F57224] px-4 h-full transition-colors flex items-center justify-center cursor-pointer"
+            className="bg-[#FFE1D2] hover:bg-[#ffd1bc] text-[#F57224] px-3 sm:px-4 h-full transition-colors flex items-center justify-center cursor-pointer"
           >
-            <Search className="w-5 h-5 text-[#F57224] stroke-[3]" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#F57224] stroke-[3]" />
           </button>
         </div>
 
-        {/* Cart */}
-        <Link href="/cart" className="relative p-2.5 rounded-md hover:bg-white/10 transition-colors flex items-center justify-center shrink-0 ml-3">
+        {/* Cart for Desktop */}
+        <Link href="/cart" className="relative p-2.5 rounded-md hover:bg-white/10 transition-colors hidden md:flex items-center justify-center shrink-0 ml-3">
           <ShoppingCart className="w-7 h-7 text-white" />
           {isMounted && cartCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[11px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-[#F57224] animate-pulse">
