@@ -107,7 +107,7 @@ export default function CheckoutPage() {
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="Enter your full name"
           />
         </div>
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="03XXXXXXXXX"
           />
         </div>
@@ -130,7 +130,7 @@ export default function CheckoutPage() {
             required
             value={shippingAddress}
             onChange={(e) => setShippingAddress(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="House #, Street #, Area"
           />
         </div>
@@ -142,7 +142,7 @@ export default function CheckoutPage() {
             required
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="Karachi"
           />
         </div>
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
           >
             <option value="COD">Cash on Delivery (COD)</option>
             <option value="JAZZCASH">JazzCash</option>
