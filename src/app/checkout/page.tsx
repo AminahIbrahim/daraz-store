@@ -91,7 +91,7 @@ export default function CheckoutPage() {
         </div>
       )}
 
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-6">Checkout</h1>
+      <h1 className="text-3xl font-extrabold text-black mb-6">Checkout</h1>
 
       {error && (
         <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4 text-sm text-red-700">
@@ -101,58 +101,63 @@ export default function CheckoutPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 shadow rounded-lg">
         <div>
-          <label className="block text-sm font-medium text-gray-700">Full Name</label>
+          <label style={{ color: '#000', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Full Name</label>
           <input
             type="text"
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
+            style={{ color: '#000', backgroundColor: '#fff' }}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="Enter your full name"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+          <label style={{ color: '#000', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Phone Number</label>
           <input
             type="text"
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
+            style={{ color: '#000', backgroundColor: '#fff' }}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="03XXXXXXXXX"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Shipping Address</label>
+          <label style={{ color: '#000', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Shipping Address</label>
           <textarea
             required
             value={shippingAddress}
             onChange={(e) => setShippingAddress(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
+            style={{ color: '#000', backgroundColor: '#fff' }}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="House #, Street #, Area"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">City</label>
+          <label style={{ color: '#000', fontWeight: '600', display: 'block', marginBottom: '4px' }}>City</label>
           <input
             type="text"
             required
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
+            style={{ color: '#000', backgroundColor: '#fff' }}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
             placeholder="Karachi"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Payment Method</label>
+          <label style={{ color: '#000', fontWeight: '600', display: 'block', marginBottom: '4px' }}>Payment Method</label>
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black bg-white focus:ring-[#F57224] focus:border-[#F57224]"
+            style={{ color: '#000', backgroundColor: '#fff' }}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#F57224] focus:border-[#F57224]"
           >
             <option value="COD">Cash on Delivery (COD)</option>
             <option value="JAZZCASH">JazzCash</option>

@@ -17,8 +17,15 @@ export default function AdminProductsPage() {
   const fetchProducts = async () => {
     try {
       const res = await fetch('/api/products');
-      const data = await res.json();
-      setProducts(data.products || data);
+      const text = await res.text();
+      
+      try {
+        const data = JSON.parse(text);
+        setProducts(data.products || data);
+      } catch {
+        console.error('API did not return JSON:', text);
+        setProducts([]);
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -31,7 +38,7 @@ export default function AdminProductsPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Kya aap waqai is product ko delete karna chahte hain?')) return;
+    if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
       const res = await fetch(`/api/admin/products/${id}`, {
