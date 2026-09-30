@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -7,7 +6,7 @@ export async function GET() {
     const orders = await prisma.order.findMany({
       include: {
         user: true,
-        orderItems: true,
+        items: true, // Yahan 'orderItems' ki jagah 'items' kar diya hai kyunki schema mein yahi naam hai
       },
       orderBy: {
         createdAt: "desc",
